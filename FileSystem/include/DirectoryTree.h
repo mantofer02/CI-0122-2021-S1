@@ -1,4 +1,4 @@
-#include <list>
+#include <vector>
 
 #include "FileDescriptor.h"
 
@@ -6,13 +6,18 @@ class File
 {
 private:
   FileDescriptor fileDescriptor;
-  std::list<File *> children;
+  std::vector<File *> children;
 
 public:
   File(FileDescriptor fileDescriptor);
   ~File();
-  bool addChildren(File *file);
-  bool removeChildren(File *file);
+  File* getChild(std::string name); 
+  std::vector<File *> getAllChilds();
+  bool appendChild(FileDescriptor fileDescriptor);
+  bool addFile(File *file);
+  FileDescriptor readFile();
+  bool updateFile(File *file);
+  bool deleteFile();
 };
 
 class DirectoryTree
@@ -27,4 +32,6 @@ public:
   FileDescriptor readFileDescriptor(std::string path);
   bool updateFileDescriptor(std::string path, FileDescriptor fileDescriptor);
   bool removeFileDescriptor(std::string path); 
+
+  void recorrer();
 };

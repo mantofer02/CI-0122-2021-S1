@@ -5,9 +5,17 @@ int main(int argc, char const *argv[])
 {
     DirectoryTree dt;
 
-    FileDescriptor pana;
-    pana.name = "El pana";
+    FileDescriptor root;
+    root.name = "~";
 
-    std::cout << pana.name << std::endl;
+    std::cout << "Arbol:" << std::endl;
+
+    dt.recorrer();
+
+    std::cout << "Arbol:" << std::endl;
+
+    dt.createFileDescriptor("~", root);
+
+    dt.recorrer();
     return 0;
 }
