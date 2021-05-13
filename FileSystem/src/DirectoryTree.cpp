@@ -144,6 +144,7 @@ void DirectoryTree::traverse(File *nodo)
 			File* tmp = *i;
 			std::cout << tmp->readFile().name << std::endl;
 		}
+		std::cout << std::endl;
 
 		for (auto i = childs.begin(); i != childs.end(); i++)
 		{

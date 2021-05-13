@@ -29,6 +29,7 @@ int main(int argc, char const *argv[])
     dt.createFileDescriptor("~/A", B);
     dt.createFileDescriptor("~/A", C);
     dt.createFileDescriptor("~", D);
+    dt.createFileDescriptor("~", B);
 
 
     dt.traverse();
