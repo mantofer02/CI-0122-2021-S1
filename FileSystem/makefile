@@ -1,6 +1,7 @@
 APPNAME = filesystem
 SRCFOLDER = src/
 BINFOLDER = bin/
+HEADERS = headers/
 EXECUTABLES = $(APPNAME) 
 #$(APPNAME)_asan $(APPNAME)_msan $(APPNAME)_tsan $(APPNAME)_ubsan
 
@@ -12,7 +13,7 @@ LIBS =
 all: $(EXECUTABLES)
 
 $(APPNAME): $(SRCFOLDER)*.cpp
-	g++ $(CFLAGS) $(SRCFOLDER)*.cpp -o $(BINFOLDER)$(APPNAME) $(LIBS)
+	g++ $(CFLAGS) $(SRCFOLDER)*.cpp -I $(HEADERS) -o $(BINFOLDER)$(APPNAME) $(LIBS)
 
 #$(APPNAME)_asan: $(SRCFOLDER)*.cpp
 #	$(CC2) $(CFLAGS) -fsanitize=address $(SRCFOLDER)*.cpp -o $(BINFOLDER)$(APPNAME)_asan $(LIBS)

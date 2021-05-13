@@ -1,4 +1,4 @@
-#include "../include/DirectoryTree.h"
+#include "DirectoryTree.h"
 #include <sstream>
 #include <iostream>
 
