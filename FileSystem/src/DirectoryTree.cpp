@@ -113,16 +113,22 @@ DirectoryTree::~DirectoryTree() {}
 
 bool DirectoryTree::createFileDescriptor(std::string path, FileDescriptor fileDescriptor)
 {
+	bool success = false;
 	if (this->root)
 	{
 		root = _traverseTree(root, path);
-		root->appendChild(fileDescriptor);
+		if (root)
+		{
+			root->appendChild(fileDescriptor);
+			success = true;;
+		}
 	}
 	else
 	{
-		std::cout << "Gatto se la come" << std::endl;
-		this->root = new File(fileDescriptor);
+		this->root = new File(fileDescriptor);;
+		success = true;
 	}
+	return success;
 }
 
 FileDescriptor DirectoryTree::readFileDescriptor(std::string path) {}
@@ -130,7 +136,6 @@ FileDescriptor DirectoryTree::readFileDescriptor(std::string path) {}
 bool DirectoryTree::updateFileDescriptor(std::string path, FileDescriptor fileDescriptor) {}
 
 bool DirectoryTree::removeFileDescriptor(std::string path) {}
-
 
 void _recorrer(File *nodo)
 {

@@ -8,6 +8,9 @@ int main(int argc, char const *argv[])
     FileDescriptor root;
     root.name = "~";
 
+    FileDescriptor gattoSeLaCome;
+    root.name = "gattoSeLaCome";
+
     std::cout << "Arbol:" << std::endl;
 
     dt.recorrer();
@@ -15,6 +18,7 @@ int main(int argc, char const *argv[])
     std::cout << "Arbol:" << std::endl;
 
     dt.createFileDescriptor("~", root);
+    dt.createFileDescriptor("~/gattoSeLaCome", gattoSeLaCome);
 
     dt.recorrer();
     return 0;
