@@ -35,7 +35,9 @@ bool FileSystem::upFolder() {
 }
 
 bool FileSystem::create(std::string file, std::string user) {
-	return 1;
+  std::ofstream newFile(file);
+  newFile.close();
+  return 1;
 }
 
 void FileSystem::read(std::string file, std::string user) {
