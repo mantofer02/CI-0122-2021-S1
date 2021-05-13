@@ -8,17 +8,28 @@ int main(int argc, char const *argv[])
     FileDescriptor root;
     root.name = "~";
 
-    FileDescriptor gattoSeLaCome;
-    root.name = "gattoSeLaCome";
+    FileDescriptor A;
+    A.name = "A";
 
-    std::cout << "Arbol:" << std::endl;
+    FileDescriptor B;
+    B.name = "B";
+
+    FileDescriptor C;
+    C.name = "C";
+
+
+    FileDescriptor D;
+    D.name = "D";
+    
 
     dt.traverse();
 
-    std::cout << "Arbol:" << std::endl;
+    dt.createFileDescriptor("", root);
+    dt.createFileDescriptor("~", A);
+    dt.createFileDescriptor("~/A", B);
+    dt.createFileDescriptor("~/A", C);
+    dt.createFileDescriptor("~", D);
 
-    dt.createFileDescriptor("~", root);
-    dt.createFileDescriptor("~/gattoSeLaCome", gattoSeLaCome);
 
     dt.traverse();
     return 0;
