@@ -43,7 +43,7 @@ rebuild: clean $(EXECUTABLES)
 
 .PHONY: lint
 lint:
-	cpplint --filter=-readability/casting $(SRCFOLDER)$(APPNAME).c
+	cpplint --filter=-readability/casting $(SRCFOLDER)*.cpp
 
 .PHONY: gitignore
 gitignore:
