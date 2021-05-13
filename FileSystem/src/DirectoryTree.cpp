@@ -3,69 +3,93 @@
 #include <iostream>
 
 // Node Section
-DirectoryTree::File ::File(FileDescriptor fileDescriptor) {
-  this->fileDescriptor = fileDescriptor;
+DirectoryTree::File ::File(FileDescriptor *fileDescriptor)
+{
+	this->fileDescriptor = fileDescriptor;
 }
 
-DirectoryTree::File ::~File() {
+DirectoryTree::File ::~File()
+{
+	for (auto iter : this->children)
+	{
+		delete iter;
+	}
 }
 
-DirectoryTree::File *DirectoryTree::File::getChild(std::string name) {
-  File *file = NULL;
-  for (auto i = this->children.begin(); i != this->children.end(); i++) {
+DirectoryTree::File *DirectoryTree::File::getChild(std::string name)
+{
+	File *file = NULL;
+	for (auto i = this->children.begin(); i != this->children.end(); i++)
+	{
 		File *tmp = *i;
-		if (tmp->fileDescriptor.name == name) {
+		if (tmp->fileDescriptor->name == name)
+		{
 			file = *i;
 		}
 	}
 	return file;
 }
 
-std::vector<DirectoryTree::File *> DirectoryTree::File::getAllChilds() {
+std::vector<DirectoryTree::File *> DirectoryTree::File::getAllChilds()
+{
 	return this->children;
 }
 
-bool DirectoryTree::File::appendChild(FileDescriptor fileDescriptor) {
+DirectoryTree::File *DirectoryTree::File::appendChild(FileDescriptor *fileDescriptor)
+{
 	this->children.push_back(new File(fileDescriptor));
+	return this->getAllChilds().back();
 }
 
-bool DirectoryTree::File ::addFile(File *file) {
-}
-
-FileDescriptor DirectoryTree::File ::readFile() {
+FileDescriptor *DirectoryTree::File ::readFile()
+{
 	return this->fileDescriptor;
 }
 
-bool DirectoryTree::File ::updateFile(File *file) {}
+void DirectoryTree::File ::updateFile(FileDescriptor *fileDescriptor)
+{
+	this->fileDescriptor = fileDescriptor;
+}
 
-bool DirectoryTree::File ::deleteFile() {}
+void DirectoryTree::File ::deleteFile()
+{
+	DirectoryTree::File ::~File();
+}
 
 //
 //Tree Section
 //
 
-std::vector<std::string> splitPath(std::string path) {
+std::vector<std::string> splitPath(std::string path)
+{
 	std::vector<std::string> localPath;
 	std::string segment;
 	std::stringstream ssPath;
 	ssPath << path;
-	while (std::getline(ssPath, segment, '/')) {
+	while (std::getline(ssPath, segment, '/'))
+	{
 		localPath.push_back(segment);
 	}
 	return localPath;
 }
 
 DirectoryTree::File *DirectoryTree::traverseRecursive(File *node,
-std::vector<std::string> path) {
+													  std::vector<std::string> path)
+{
 	std::string local = path.front();
-	if (local == node->readFile().name) {
-		if (path.size() <= 1) {
+	if (local == node->readFile()->name)
+	{
+		if (path.size() <= 1)
+		{
 			return node;
-		} else {
+		}
+		else
+		{
 			path.erase(path.begin());
 			local = path.front();
 			File *next = node->getChild(local);
-			if (next) {
+			if (next)
+			{
 				return traverseRecursive(next, path);
 			}
 		}
@@ -73,59 +97,99 @@ std::vector<std::string> path) {
 	return NULL;
 }
 
-DirectoryTree::File *DirectoryTree::traverseTree(File *node, std::string path) {
+DirectoryTree::File *DirectoryTree::traverseTree(File *node, std::string path)
+{
 	std::vector<std::string> localPath;
 	localPath = splitPath(path);
-	File *root = node;
 
 	return traverseRecursive(node, localPath);
 }
 
-DirectoryTree::DirectoryTree() {
+DirectoryTree::DirectoryTree()
+{
 	this->root = NULL;
 }
 
 DirectoryTree::~DirectoryTree() {}
 
 bool DirectoryTree::createFileDescriptor(std::string path,
-FileDescriptor fileDescriptor) {
+										 FileDescriptor *fileDescriptor)
+{
 	bool success = false;
-	if (this->root) {
+	if (this->root)
+	{
 		File *node = traverseTree(root, path);
-		if (node) {
+		if (node)
+		{
 			node->appendChild(fileDescriptor);
 			success = true;
 		}
-	} else {
+	}
+	else
+	{
 		this->root = new File(fileDescriptor);
 		success = true;
 	}
 	return success;
 }
 
-FileDescriptor DirectoryTree::readFileDescriptor(std::string path) {}
+FileDescriptor *DirectoryTree::readFileDescriptor(std::string path)
+{
+	File *file = traverseTree(this->root, path);
+	return file ? file->readFile() : NULL;
+}
 
-bool DirectoryTree::updateFileDescriptor(std::string path, FileDescriptor fileDescriptor) {}
+bool DirectoryTree::updateFileDescriptor(std::string path, FileDescriptor *fileDescriptor)
+{
+	bool success = false;
+	File *file;
+	file = traverseTree(this->root, path);
 
-bool DirectoryTree::removeFileDescriptor(std::string path) {}
+	if (file)
+	{
+		file->updateFile(fileDescriptor);
+		success = true;
+	}
 
-void DirectoryTree::traverse(File *nodo) {
-	if (nodo != NULL) {
+	return success;
+}
+
+bool DirectoryTree::removeFileDescriptor(std::string path)
+{
+	bool success = false;
+	File *node = traverseTree(this->root, path);
+
+	if (node)
+	{
+		//Metodo recursivo de borrado de hijos
+		success = true;
+	}
+
+	return success;
+}
+
+void DirectoryTree::traverse(File *nodo)
+{
+	if (nodo != NULL)
+	{
 		auto childs = nodo->getAllChilds();
-		std::cout << nodo->readFile().name << std::endl;
+		std::cout << nodo->readFile()->name << std::endl;
 
 		std::cout << "Hijos" << std::endl;
-		for (auto i = childs.begin(); i != childs.end(); i++) {
-			File* tmp = *i;
-			std::cout << tmp->readFile().name << std::endl;
+		for (auto i = childs.begin(); i != childs.end(); i++)
+		{
+			File *tmp = *i;
+			std::cout << tmp->readFile()->name << std::endl;
 		}
 		std::cout << std::endl;
-		for (auto i = childs.begin(); i != childs.end(); i++) {
+		for (auto i = childs.begin(); i != childs.end(); i++)
+		{
 			traverse(*i);
 		}
 	}
 }
 
-void DirectoryTree::traverse() {
+void DirectoryTree::traverse()
+{
 	traverse(this->root);
 }

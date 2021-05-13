@@ -1,7 +1,7 @@
 #include "../include/DirectoryTree.h"
 #include <iostream>
 
-int main(int argc, char const *argv[])
+int main()
 {
     DirectoryTree dt;
 
@@ -21,17 +21,24 @@ int main(int argc, char const *argv[])
     FileDescriptor D;
     D.name = "D";
     
-
+    std::cout << "Arbol: " << std::endl;
     dt.traverse();
 
-    dt.createFileDescriptor("", root);
-    dt.createFileDescriptor("~", A);
-    dt.createFileDescriptor("~/A", B);
-    dt.createFileDescriptor("~/A", C);
-    dt.createFileDescriptor("~", D);
-    dt.createFileDescriptor("~", B);
+    dt.createFileDescriptor("", &root);
+    dt.createFileDescriptor("~", &A);
+    dt.createFileDescriptor("~/A", &B);
+    dt.createFileDescriptor("~/A", &C);
+    dt.createFileDescriptor("~", &D);
+    dt.createFileDescriptor("~", &B);
 
+    std::cout << "Arbol: " << std::endl;
+    dt.traverse();
 
+    FileDescriptor fd;
+    fd.name = "newName";
+    dt.updateFileDescriptor("~/A", &fd);
+
+    std::cout << "Arbol: " << std::endl;\
     dt.traverse();
     return 0;
 }

@@ -12,7 +12,7 @@ class FileDescriptor {
     int id;
     std::string type;
     std::string location;
-    bool permissions[10];
+    bool permissions[10]; // Cambiemos esta vara por un int? btw donde esta el const??? god, why???
     int size;
     std::string username;
     //Time

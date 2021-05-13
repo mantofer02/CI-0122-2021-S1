@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdlib.h>
-
 #include "DirectoryTree.h"
 
 const int storage_size = 50000;
