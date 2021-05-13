@@ -35,9 +35,15 @@ bool FileSystem::upFolder() {
 }
 
 bool FileSystem::create(std::string file, std::string user) {
-  std::ofstream newFile(file);
-  newFile.close();
-  return 1;
+  //falta meter path, todo va a estar en un mismo nivel
+  FileDescriptor newFileDescriptor;
+  newFileDescriptor.name = file;
+  bool success = directoryTree.createFileDescriptor(" ", &newFileDescriptor);
+  if (success == SUCCESS) {
+    return SUCCESS;
+  } else {
+    return EXIT_ERROR;
+  }
 }
 
 void FileSystem::read(std::string file, std::string user) {

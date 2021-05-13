@@ -5,6 +5,8 @@
 #include <fstream>
 
 const int storage_size = 50000;
+#define SUCCESS 1
+#define EXIT_ERROR 0
 
 class FileSystem {
   private:

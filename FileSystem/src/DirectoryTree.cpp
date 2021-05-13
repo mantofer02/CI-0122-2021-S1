@@ -53,7 +53,7 @@ void DirectoryTree::File ::updateFile(FileDescriptor *fileDescriptor)
 
 void DirectoryTree::File ::deleteFile()
 {
-	DirectoryTree::File ::~File();
+	// DirectoryTree::File ::~File();
 }
 
 //
