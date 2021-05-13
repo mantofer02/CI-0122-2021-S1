@@ -1,20 +1,21 @@
-#include "DirectoryTree.h"
+#include "../include/DirectoryTree.h"
 #include <sstream>
 
 //Erik es vegano
 #include <iostream>
 
 //Node Section
-File ::File(FileDescriptor fileDescriptor)
+DirectoryTree::File ::File(FileDescriptor fileDescriptor)
 {
 	this->fileDescriptor = fileDescriptor;
 }
 
-File ::~File()
+DirectoryTree::File ::~File()
 {
 }
 
-File *File::getChild(std::string name)
+
+DirectoryTree::File* DirectoryTree::File::getChild(std::string name)
 {
 	File *file = NULL;
 	for (auto i = this->children.begin(); i != this->children.end(); i++)
@@ -28,28 +29,28 @@ File *File::getChild(std::string name)
 	return file;
 }
 
-std::vector<File *> File::getAllChilds()
+std::vector<DirectoryTree::File *> DirectoryTree::File::getAllChilds()
 {
 	return this->children;
 }
 
-bool File::appendChild(FileDescriptor fileDescriptor)
+bool DirectoryTree::File::appendChild(FileDescriptor fileDescriptor)
 {
 	this->children.push_back(new File(fileDescriptor));
 }
 
-bool File ::addFile(File *file)
+bool DirectoryTree::File ::addFile(File *file)
 {
 }
 
-FileDescriptor File ::readFile()
+FileDescriptor DirectoryTree::File ::readFile()
 {
 	return this->fileDescriptor;
 }
 
-bool File ::updateFile(File *file) {}
+bool DirectoryTree::File :: updateFile(File *file) {}
 
-bool File ::deleteFile() {}
+bool DirectoryTree::File :: deleteFile() {}
 
 //
 //Tree Section
@@ -68,7 +69,7 @@ std::vector<std::string> splitPath(std::string path)
 	return localPath;
 }
 
-File *_traverseRecursive(File *node, std::vector<std::string> path)
+DirectoryTree::File* DirectoryTree::traverseRecursive(File *node, std::vector<std::string> path)
 {
 	std::string local = path.front();
 	if (local == node->readFile().name)
@@ -88,20 +89,20 @@ File *_traverseRecursive(File *node, std::vector<std::string> path)
 		File *child = node->getChild(local);
 		if (child)
 		{
-			return _traverseRecursive(child, path);
+			return traverseRecursive(child, path);
 		}
 	}
 
 	return NULL;
 }
 
-File *_traverseTree(File *node, std::string path)
+DirectoryTree::File* DirectoryTree::traverseTree(File *node, std::string path)
 {
 	std::vector<std::string> localPath;
 	localPath = splitPath(path);
 	File *root = node;
 
-	return _traverseRecursive(node, localPath);
+	return traverseRecursive(node, localPath);
 }
 
 DirectoryTree::DirectoryTree()
@@ -116,7 +117,7 @@ bool DirectoryTree::createFileDescriptor(std::string path, FileDescriptor fileDe
 	bool success = false;
 	if (this->root)
 	{
-		root = _traverseTree(root, path);
+		root = traverseTree(root, path);
 		if (root)
 		{
 			root->appendChild(fileDescriptor);
@@ -137,7 +138,7 @@ bool DirectoryTree::updateFileDescriptor(std::string path, FileDescriptor fileDe
 
 bool DirectoryTree::removeFileDescriptor(std::string path) {}
 
-void _recorrer(File *nodo)
+void DirectoryTree::traverse(File *nodo)
 {
 	if (nodo != NULL)
 	{
@@ -146,12 +147,12 @@ void _recorrer(File *nodo)
 
 		for (auto i = childs.begin(); i != childs.end(); i++)
 		{
-			_recorrer(*i);
+			traverse(*i);
 		}
 	}
 }
 
-void DirectoryTree::recorrer()
+void DirectoryTree::traverse()
 {
-	_recorrer(this->root);
+	traverse(this->root);
 }

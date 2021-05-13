@@ -1,4 +1,4 @@
-#include "DirectoryTree.h"
+#include "../include/DirectoryTree.h"
 #include <iostream>
 
 int main(int argc, char const *argv[])
@@ -13,13 +13,13 @@ int main(int argc, char const *argv[])
 
     std::cout << "Arbol:" << std::endl;
 
-    dt.recorrer();
+    dt.traverse();
 
     std::cout << "Arbol:" << std::endl;
 
     dt.createFileDescriptor("~", root);
     dt.createFileDescriptor("~/gattoSeLaCome", gattoSeLaCome);
 
-    dt.recorrer();
+    dt.traverse();
     return 0;
 }

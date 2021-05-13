@@ -12,5 +12,6 @@ public:
     bool permissions[permissions_size];
     int size;
     std::string username;
+
     //Time
 };
