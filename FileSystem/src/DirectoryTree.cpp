@@ -115,24 +115,24 @@ DirectoryTree::DirectoryTree()
 DirectoryTree::~DirectoryTree() {}
 
 bool DirectoryTree::createFileDescriptor(std::string path,
-										 FileDescriptor *fileDescriptor)
+FileDescriptor *fileDescriptor)
 {
-	bool success = false;
+	bool status = EXIT_ERROR;
 	if (this->root)
 	{
 		File *node = traverseTree(root, path);
 		if (node)
 		{
 			node->appendChild(fileDescriptor);
-			success = true;
+			status = SUCCESS;
 		}
 	}
 	else
 	{
 		this->root = new File(fileDescriptor);
-		success = true;
+		status = SUCCESS;
 	}
-	return success;
+	return status;
 }
 
 FileDescriptor *DirectoryTree::readFileDescriptor(std::string path)

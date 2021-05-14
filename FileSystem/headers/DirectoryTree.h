@@ -4,6 +4,9 @@
 #include <vector>
 #include "FileDescriptor.h"
 
+#define SUCCESS 1
+#define EXIT_ERROR 0
+
 class DirectoryTree
 {
 private:
@@ -52,6 +55,14 @@ private:
 public:
   DirectoryTree();
   ~DirectoryTree();
+
+  /**
+   * @brief Adds a FileDescriptor to the DirectoryTree
+   * @param path Logical path where the FileDescriptor wants to be positioned
+   * @param fileDescriptor ptr to a FileDescriptor object
+   * @return Status of the positioning of the FileDescriptor in the DirectoryTree
+   * SUCCESS or EXIT_ERROR
+   */
   bool createFileDescriptor(std::string path, FileDescriptor *fileDescriptor);
   FileDescriptor *readFileDescriptor(std::string path);
   bool updateFileDescriptor(std::string path, FileDescriptor *fileDescriptor);
