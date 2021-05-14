@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 
-// Node Section
 DirectoryTree::File ::File(FileDescriptor *fileDescriptor)
 {
 	this->fileDescriptor = fileDescriptor;
@@ -60,21 +59,24 @@ void DirectoryTree::File ::deleteFile()
 //Tree Section
 //
 
+
 std::vector<std::string> splitPath(std::string path)
 {
-	std::vector<std::string> localPath;
-	std::string segment;
-	std::stringstream ssPath;
-	ssPath << path;
-	while (std::getline(ssPath, segment, '/'))
-	{
-		localPath.push_back(segment);
-	}
-	return localPath;
+  std::vector<std::string> localPath;
+  std::string segment;
+  std::stringstream ssPath;
+  ssPath << path;
+  while (std::getline(ssPath, segment, '/'))
+  {
+    localPath.push_back(segment);
+  }
+  return localPath;
 }
 
-DirectoryTree::File *DirectoryTree::traverseRecursive(File *node,
-													  std::vector<std::string> path)
+
+
+DirectoryTree::File *DirectoryTree::traverseRecursive(File *node, 
+std::vector<std::string> path)
 {
 	std::string local = path.front();
 	if (local == node->readFile()->name)

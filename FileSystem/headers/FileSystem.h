@@ -21,7 +21,6 @@ class FileSystem {
     FileSystem();
     ~FileSystem();
     bool checkPermissions(std::string file);
-    // ver nombres, es solicitar mas espacio
     int reallocSpace();
     int write(char *data, std::string file, std::string user);
     bool execute(std::string file, std::string user);
