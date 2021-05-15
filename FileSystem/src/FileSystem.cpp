@@ -1,3 +1,4 @@
+/*
 #include "FileSystem.h"
 
 FileSystem::FileSystem() {
@@ -53,3 +54,4 @@ void FileSystem::read(std::string file, std::string user) {
 int FileSystem::append(char* data, std::string file, std::string user) {
 	return 1;
 }
+*/

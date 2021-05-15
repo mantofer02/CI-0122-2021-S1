@@ -1,44 +1,17 @@
-#include "DirectoryTree.h"
+//#include "DirectoryTree.h"
+//#include "FileSystem.h"
+
+#include <Storage.h>
+
 #include <iostream>
+#include <cstring>
+
 
 int main()
 {
-    DirectoryTree dt;
+    Storage storage(5000, 0, 512, 2);
 
-    FileDescriptor root;
-    root.name = "~";
-
-    FileDescriptor A;
-    A.name = "A";
-
-    FileDescriptor B;
-    B.name = "B";
-
-    FileDescriptor C;
-    C.name = "C";
-
-
-    FileDescriptor D;
-    D.name = "D";
-    
-    std::cout << "Arbol: " << std::endl;
-    dt.traverse();
-
-    dt.createFileDescriptor("", &root);
-    dt.createFileDescriptor("~", &A);
-    dt.createFileDescriptor("~/A", &B);
-    dt.createFileDescriptor("~/A", &C);
-    dt.createFileDescriptor("~", &D);
-    dt.createFileDescriptor("~", &B);
-
-    std::cout << "Arbol: " << std::endl;
-    dt.traverse();
-
-    FileDescriptor fd;
-    fd.name = "newName";
-    dt.updateFileDescriptor("~/A", &fd);
-
-    std::cout << "Arbol: " << std::endl;\
-    dt.traverse();
-    return 0;
+    std::ofstream file("diskImage.dd");
+    storage.createDiskImage(&file);
+    file.close();
 }
