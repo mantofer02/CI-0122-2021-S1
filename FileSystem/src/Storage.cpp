@@ -1,7 +1,21 @@
 #include <Storage.h>
-#include <cstring>
 #include <iostream>
-#include <bitset>
+
+//Seccion de entradas en la tabla FAT
+void Entry::setEntry(char isEmpty, int direction){
+    this->direction = direction;
+    this->empty = isEmpty;
+}
+
+bool Entry::isEmpty(){
+    return empty;
+}
+
+int Entry::getDirection(){
+    return direction;
+}
+
+//Seccion de Storage
 
 /*
 A esta funcion se le pasan un char[4] y un int
@@ -14,7 +28,6 @@ void Storage::SerializeInt32(char (&buf)[4], int val)
     for (int i = 3; i >= 0; --i)
     {
         buf[i] = val & 255;
-        std::bitset<8> x(buf[i]);
         val = val >> 8;
     }
 }
@@ -79,7 +92,7 @@ Este metodo crea la tabla FAT dentro de memoria
 */
 void Storage::createFAT()
 {
-    for (int i = resvdSize; i < totalClusters * FATBlock; i += FATBlock)
+    for (int i = resvdSize; i < totalClusters * FATEntry; i += FATEntry)
     {
         this->storage[i] = false;
         writeIntToMemory(-1, i + 1);
@@ -109,7 +122,7 @@ Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
     this->blockSize = blockSize;
     this->clusterBlocks = clusterBlocks;
     this->totalClusters = diskSize / (clusterBlocks * blockSize);
-    this->rootAddress = resvdSize + totalClusters * FATBlock;
+    this->rootAddress = resvdSize + (totalClusters * FATEntry); //cambiar para alienar con siguiente bloque
     this->storage = new int[diskSize];
 
     fillReservedRegion();
