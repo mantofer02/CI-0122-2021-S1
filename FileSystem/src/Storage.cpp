@@ -2,16 +2,19 @@
 #include <iostream>
 
 //Seccion de entradas en la tabla FAT
-void Entry::setEntry(char isEmpty, int direction){
+void Entry::setEntry(char isEmpty, int direction)
+{
     this->direction = direction;
     this->empty = isEmpty;
 }
 
-bool Entry::isEmpty(){
+bool Entry::isEmpty()
+{
     return empty;
 }
 
-int Entry::getDirection(){
+int Entry::getDirection()
+{
     return direction;
 }
 
@@ -92,10 +95,16 @@ Este metodo crea la tabla FAT dentro de memoria
 */
 void Storage::createFAT()
 {
-    for (int i = resvdSize; i < totalClusters * FATEntry; i += FATEntry)
+
+    FAT = new Entry[this->totalClusters];
+    for (int i = resvdSize; i <= totalClusters; i += FATEntry)
     {
         this->storage[i] = false;
         writeIntToMemory(-1, i + 1);
+    }
+    for (int i = 0; i < totalClusters; ++i)
+    {
+        FAT[i].setEntry(false, -1);
     }
 }
 
@@ -133,6 +142,7 @@ Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
 Storage::~Storage()
 {
     delete this->storage;
+    delete this->FAT;
 }
 
 /*
@@ -158,10 +168,13 @@ Imprime la informacion del storage
 */
 void Storage::status()
 {
-    std::cout << "Disk Size in bytes: " << this->diskSize << std::endl;
-    std::cout << "Disk id: " << this->diskNum << std::endl;
-    std::cout << "Block Size in bytes: " << this->blockSize << std::endl;
-    std::cout << "Blocks in cluster: " << this->clusterBlocks << std::endl;
-    std::cout << "Total number of clusters: " << this->totalClusters << std::endl;
-    std::cout << "Root Address: " << this->rootAddress << std::endl;
+    std::cout << "\n\n" << "                      DISK STATUS" << std::endl;
+    std::cout << "----------------------------------------------------" << std::endl;
+    std::cout << "Disk Size in bytes:           " << this->diskSize << std::endl;
+    std::cout << "Disk id:                      " << this->diskNum << std::endl;
+    std::cout << "Block Size in bytes:          " << this->blockSize << std::endl;
+    std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
+    std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;
+    std::cout << "Root Address:                 " << this->rootAddress << std::endl;
+    std::cout << "----------------------------------------------------" << "\n\n" << std::endl;
 }
