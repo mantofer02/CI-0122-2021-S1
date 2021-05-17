@@ -16,6 +16,11 @@ bool FileSystem::checkPermissions(std::string file)
   return true;
 }
 
+bool FileSystem::checkPermissions(std::string file, int index)
+{
+  return true;
+}
+
 int FileSystem::write(char *data, std::string file, std::string user)
 {
   this->user = user;
