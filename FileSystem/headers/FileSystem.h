@@ -23,6 +23,7 @@ public:
   FileSystem();
   ~FileSystem();
   bool checkPermissions(std::string file);
+  bool checkPermissions(std::string file, int permissionIndex);
   int reallocSpace();
   int write(char *data, std::string file, std::string user);
   bool execute(std::string file, std::string user);

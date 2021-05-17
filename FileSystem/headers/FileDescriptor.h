@@ -1,3 +1,9 @@
+/**
+ * @file FileDesciptor structure that helps 
+ * mantain the Descriptions of a File Object
+ */
+
+
 #ifndef FILE_DESCRIPTOR_H
 #define FILE_DESCRIPTOR_H
 
