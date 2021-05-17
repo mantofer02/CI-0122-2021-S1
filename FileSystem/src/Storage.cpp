@@ -149,7 +149,7 @@ Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
     this->diskNum = diskNum;
     this->blockSize = blockSize;
     this->clusterBlocks = clusterBlocks;
-    this->clusterSize = clusterBlocks*blockSize;
+    this->clusterSize = clusterBlocks * blockSize;
     this->totalClusters = diskSize / clusterSize;
     this->rootAddress = 24 + FATEntry * totalClusters;
     this->storage = new int[diskSize];
@@ -187,23 +187,23 @@ void Storage::createDiskImage(std::ofstream *diskImage)
 Busca el primer entry vacio en el FAT system y escribe la direccion
 del bloque recibido en parametros
 */
-void Storage::writeCluster(char* block, int index)
+void Storage::writeCluster(char *block, int index)
 {
-    for(int i = 0; i < clusterSize; i+= blockSize)
+    for (int i = 0; i < clusterSize; i += blockSize)
     {
-        this->storage[(i+(clusterSize*index))] = block[i];
+        this->storage[(i + (clusterSize * index))] = block[i];
     }
 }
 
 /*
 Retorna un char array (Cluster) de la memoria virtual del indice especificado
 */
-char * Storage::readCluster(int clusterId)
+char *Storage::readCluster(int clusterId)
 {
     char buffer[clusterSize];
-    for(int i = 0; i < clusterSize; i+= blockSize)
+    for (int i = 0; i < clusterSize; i += blockSize)
     {
-        buffer[i] = this->storage[(i+(clusterSize*clusterId))];
+        buffer[i] = this->storage[(i + (clusterSize * clusterId))];
     }
     return buffer;
 }
@@ -221,6 +221,7 @@ void Storage::status()
     std::cout << "Block Size in bytes:          " << this->blockSize << std::endl;
     std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
     std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;
+    std::cout << "Cluster size:                 " << this->clusterSize << std::endl;
     std::cout << "Root Address:                 " << this->rootAddress << std::endl;
     std::cout << "----------------------------------------------------"
               << "\n\n"
