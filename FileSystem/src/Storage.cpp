@@ -1,5 +1,4 @@
 #include <Storage.h>
-#include <iostream>
 
 //Seccion de entradas en la tabla FAT
 void Entry::setEntry(char isEmpty, int address)
@@ -24,25 +23,24 @@ int Entry::getAddress()
 A esta funcion se le pasa un numero y la posicion de memoria en que lo quiere almacenar
 es unicamente para guardar ints
 */
-void Storage::writeIntToMemory(int num, int pos)
+void Storage::writeIntToMemory(int number, int index)
 {
   Utility myUtility;
   char temp[4];
-  myUtility.SerializeInt32(temp, num);
-
+  myUtility.SerializeInt32(temp, number);
   for (int i = 0; i < 4; i++)
   {
-    this->storage[pos + i] = temp[i];
+    this->storage[index + i] = temp[i];
   }
 }
 
-int Storage::readIntFromMemory(int pos)
+int Storage::readIntFromMemory(int index)
 {
   Utility myUtility;
   char temp[4];
   for (int i = 0; i < 4; i++)
   {
-    temp[i] = this->storage[pos + i];
+    temp[i] = this->storage[index + i];
   }
   return myUtility.ParseInt32(temp);
 }
@@ -62,23 +60,37 @@ void Storage::fillReservedRegion()
   writeIntToMemory(this->totalClusters, 16);
   writeIntToMemory(this->rootAddress, 20);
 }
+/*
+Llena los clusters en todo el storage con valores enteros por defecto(inicializa)
+*/
+void Storage::setDefaultClusters()
+{
+  for (int i = resvdSize; i <= this->totalClusters; i += FATEntry)
+  {
+    this->storage[i] = false;
+    writeIntToMemory(-1, i + 1);
+  }
+}
+
+/*
+Escribe los valores por defecto de las entradas en la tabla fat (-1)
+*/
+void Storage::initializeEntries(Entry *FAT)
+{
+  for (int i = 0; i < this->totalClusters; ++i)
+  {
+    FAT[i].setEntry(false, -1);
+  }
+}
 
 /*
 Este metodo crea la tabla FAT dentro de memoria
 */
 void Storage::createFAT()
 {
-
   FAT = new Entry[this->totalClusters];
-  for (int i = resvdSize; i <= totalClusters; i += FATEntry)
-  {
-    this->storage[i] = false;
-    writeIntToMemory(-1, i + 1);
-  }
-  for (int i = 0; i < totalClusters; ++i)
-  {
-    FAT[i].setEntry(false, -1);
-  }
+  setDefaultClusters();
+  initializeEntries(FAT);
 }
 
 //Constructor default

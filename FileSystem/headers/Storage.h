@@ -1,12 +1,9 @@
 #ifndef STORAGE_H
 #define STORAGE_H
-
 #include <fstream>
 #include <Utility.h>
-
 //Reserved space Offset en bytes
 #define resvdSize 24
-
 //Bytes per FAT Entry
 #define FATEntry 5
 struct Entry
@@ -33,9 +30,11 @@ private:
     Entry *FAT;
     int *storage; //The Virtrual Memory Storage
 
-    void writeIntToMemory(int num, int pos);
-    int readIntFromMemory(int pos);
+    void writeIntToMemory(int number, int index);
+    int readIntFromMemory(int index);
     void fillReservedRegion();
+    void initializeEntries(Entry * FAT);
+    void setDefaultClusters();
     void createFAT();
     void createRoot();
 
@@ -50,5 +49,4 @@ public:
     char * readCluster(int clusterId);
     void status();
 };
-
 #endif

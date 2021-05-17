@@ -1,12 +1,10 @@
+#ifndef FILESYSTEM_H
+#define FILESYSTEM_H
 #include <iostream>
 #include <ostream>
 #include <fstream>
-
 #include "DirectoryTree.h"
 #include "Storage.h"
-
-#define SUCCESS 1
-#define EXIT_ERROR 0
 
 class FileSystem
 {
@@ -14,7 +12,6 @@ private:
   DirectoryTree directoryTree;
   Storage storage;
   Entry *FAT;
-
   std::string directory;
   std::string activeFolder;
   std::string user;
@@ -36,3 +33,4 @@ public:
   void read(std::string file, std::string user);
   int append(char *data, std::string file, std::string user);
 };
+#endif
