@@ -2,9 +2,9 @@
 #include <iostream>
 
 //Seccion de entradas en la tabla FAT
-void Entry::setEntry(char isEmpty, int direction)
+void Entry::setEntry(char isEmpty, int address)
 {
-    this->direction = direction;
+    this->address = address;
     this->empty = isEmpty;
 }
 
@@ -13,9 +13,9 @@ bool Entry::isEmpty()
     return empty;
 }
 
-int Entry::getDirection()
+int Entry::getAddress()
 {
-    return direction;
+    return address;
 }
 
 //Seccion de Storage
@@ -164,11 +164,43 @@ void Storage::createDiskImage(std::ofstream *diskImage)
 }
 
 /*
+Busca el primer entry vacio en el FAT system y escribe la direccion
+del bloque recibido en parametros
+*/
+void Storage::writeCluster(char *block)
+{
+    for (int i = resvdSize; i < this->totalClusters; i += FATEntry)
+    {
+        if (FAT[i].isEmpty())
+        {
+            FAT[i].setEntry(1, atoi(block));
+            break;
+        }
+    }
+}
+
+/*
+Lee un cluster de storage
+*/
+char Storage::*readCluster()
+{
+    for (int i = resvdSize; i < this->totalClusters; i += FATEntry)
+    {
+        if (FAT[i].isEmpty())
+        {
+            FAT[i].setEntry(1, atoi(block));
+            break;
+        }
+    }
+}
+
+/*
 Imprime la informacion del storage
 */
 void Storage::status()
 {
-    std::cout << "\n\n" << "                      DISK STATUS" << std::endl;
+    std::cout << "\n\n"
+              << "                      DISK STATUS" << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
     std::cout << "Disk Size in bytes:           " << this->diskSize << std::endl;
     std::cout << "Disk id:                      " << this->diskNum << std::endl;
@@ -176,5 +208,7 @@ void Storage::status()
     std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
     std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;
     std::cout << "Root Address:                 " << this->rootAddress << std::endl;
-    std::cout << "----------------------------------------------------" << "\n\n" << std::endl;
+    std::cout << "----------------------------------------------------"
+              << "\n\n"
+              << std::endl;
 }

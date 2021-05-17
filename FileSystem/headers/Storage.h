@@ -11,11 +11,10 @@
 struct Entry
 {
     char empty;
-    int direction;
-
-    void setEntry(char isEmpty, int direction);
+    int address;
+    void setEntry(char isEmpty, int address);
     bool isEmpty();
-    int getDirection();
+    int getAddress();
 };
 
 class Storage
