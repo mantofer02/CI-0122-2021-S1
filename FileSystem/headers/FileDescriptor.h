@@ -9,6 +9,7 @@
 
 #include <string>
 #include <vector>
+#include <ctime>
 #define NAME_SIZE 256
 #define ID_SIZE 4
 #define TYPE_SIZE 128 
@@ -30,7 +31,7 @@ public:
   bool permissions[10];
   int size;
   std::string username;
-  //Time
+  time_t time = std::time(0);
   int address;
 
   FileDescriptor();
