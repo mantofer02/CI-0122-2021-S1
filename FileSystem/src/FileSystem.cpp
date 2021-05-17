@@ -1,57 +1,51 @@
-/*
+
 #include "FileSystem.h"
 
-FileSystem::FileSystem() {
-  this->user = "Luis Carlos";
-  this->directory = "PC Directory";
-  this->activeFolder = "PC Active Folder";
-  this->fat = new int [5];
+FileSystem::FileSystem()
+{
+  this->storage = Storage(25 * 1024 * 1024, 0, 64, 2);
 }
 
-FileSystem::~FileSystem() {
-	delete fat;
+FileSystem::~FileSystem()
+{
+  delete FAT;
 }
-bool FileSystem::checkPermissions(std::string file) {
+
+bool FileSystem::checkPermissions(std::string file)
+{
   return true;
 }
 
-int FileSystem::reallocSpace(){
-	return 1;
+int FileSystem::write(char *data, std::string file, std::string user)
+{
+  this->user = user;
 }
 
-int FileSystem::write(char *data, std::string file, std::string user){
-	this->user = user;
+bool FileSystem::execute(std::string file, std::string user)
+{
+  return true;
 }
 
-bool FileSystem::execute(std::string file, std::string user) {
-	return true;
+char *FileSystem::list()
+{
+  return "return";
 }
 
-char* FileSystem::list() {
-	return "return";
+bool FileSystem::upFolder()
+{
+  return true;
 }
 
-bool FileSystem::upFolder() {
-	return true;
+bool FileSystem::create(std::string file, std::string user)
+{
+  return false;
 }
 
-bool FileSystem::create(std::string file, std::string user) {
-  //falta meter path, todo va a estar en un mismo nivel
-  FileDescriptor newFileDescriptor;
-  newFileDescriptor.name = file;
-  bool success = directoryTree.createFileDescriptor(" ", &newFileDescriptor);
-  if (success == SUCCESS) {
-    return SUCCESS;
-  } else {
-    return EXIT_ERROR;
-  }
+void FileSystem::read(std::string file, std::string user)
+{
 }
 
-void FileSystem::read(std::string file, std::string user) {
-
+int FileSystem::append(char *data, std::string file, std::string user)
+{
+  return 1;
 }
-
-int FileSystem::append(char* data, std::string file, std::string user) {
-	return 1;
-}
-*/

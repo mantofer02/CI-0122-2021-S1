@@ -108,12 +108,30 @@ void Storage::createFAT()
     }
 }
 
+//Constructor default
+Storage::Storage()
+{
+    this->diskSize = 0;
+    this->diskNum = 0;
+    this->blockSize = 0;
+    this->clusterBlocks = 0;
+    this->totalClusters = 0;
+    this->rootAddress = 0;
+    this->storage = new int[diskSize];
+}
+
 /*
 Este constructor genera un Storage a partir de un archivo
 
 Storage::Storage(std::ifstream *diskImage)
 {
     loadDiskImage(diskImage);
+}
+*/
+
+/*
+int calucalteRootBlock(){
+    int fatFinalEntry = FATEntry * 
 }
 */
 
@@ -131,7 +149,7 @@ Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
     this->blockSize = blockSize;
     this->clusterBlocks = clusterBlocks;
     this->totalClusters = diskSize / (clusterBlocks * blockSize);
-    this->rootAddress = resvdSize + (totalClusters * FATEntry); //cambiar para alienar con siguiente bloque
+    this->rootAddress = 24 + FATEntry * totalClusters;
     this->storage = new int[diskSize];
 
     fillReservedRegion();
@@ -168,7 +186,8 @@ Imprime la informacion del storage
 */
 void Storage::status()
 {
-    std::cout << "\n\n" << "                      DISK STATUS" << std::endl;
+    std::cout << "\n\n"
+              << "                      DISK STATUS" << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
     std::cout << "Disk Size in bytes:           " << this->diskSize << std::endl;
     std::cout << "Disk id:                      " << this->diskNum << std::endl;
@@ -176,5 +195,7 @@ void Storage::status()
     std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
     std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;
     std::cout << "Root Address:                 " << this->rootAddress << std::endl;
-    std::cout << "----------------------------------------------------" << "\n\n" << std::endl;
+    std::cout << "----------------------------------------------------"
+              << "\n\n"
+              << std::endl;
 }
