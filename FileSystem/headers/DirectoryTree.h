@@ -1,3 +1,9 @@
+/**
+ * @file DirectoryTree
+ * @brief This Directory Tree represents a logic
+ * structure that will help use implement a File System
+ */
+
 #ifndef DIRECTORY_TREE_H
 #define DIRECTORY_TREE_H
 
@@ -45,7 +51,8 @@ private:
     FileDescriptor *readFile();
 
     /**
-     * @brief Set a new FileDescriptor to a File
+     * @brief Sets a new FileDescriptor to a File
+     * @param fileDescriptor New File Descriptor for it's respective file
      */
     void updateFile(FileDescriptor *fileDescriptor);
     void deleteFile();
@@ -64,8 +71,29 @@ public:
    * SUCCESS or EXIT_ERROR
    */
   bool createFileDescriptor(std::string path, FileDescriptor *fileDescriptor);
+  
+  /**
+   * @brief Method that reads a FileDescriptor inside the DirectoryTree 
+   * @param path Logical path where the File resides inside the tree
+   * @return A FileDescriptor ptr, if it's the path does not exist inside the
+   * DirectoryTree
+   */
   FileDescriptor *readFileDescriptor(std::string path);
+  
+  /**
+   * @brief Updates the value of a FileDescriptor whithin the DirectoryTree
+   * @param path Logical path where the File resides inside the tree
+   * @param fileDescriptor New FileDescriptor for it's respective file
+   * @return True is success, false if failure
+   */
   bool updateFileDescriptor(std::string path, FileDescriptor *fileDescriptor);
+  
+  
+  /**
+   * @brief Removes the value of a FileDescriptor whithin the DirectoryTree
+   * @param path Logical path where the File resides inside the tree
+   * @return True is success, false if failure
+   */
   bool removeFileDescriptor(std::string path);
   
   /**
