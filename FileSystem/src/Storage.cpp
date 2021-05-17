@@ -2,9 +2,9 @@
 #include <iostream>
 
 //Seccion de entradas en la tabla FAT
-void Entry::setEntry(char isEmpty, int direction)
+void Entry::setEntry(char isEmpty, int address)
 {
-    this->direction = direction;
+    this->address = address;
     this->empty = isEmpty;
 }
 
@@ -13,9 +13,9 @@ bool Entry::isEmpty()
     return empty;
 }
 
-int Entry::getDirection()
+int Entry::getAddress()
 {
-    return direction;
+    return address;
 }
 
 //Seccion de Storage
@@ -108,12 +108,31 @@ void Storage::createFAT()
     }
 }
 
+//Constructor default
+Storage::Storage()
+{
+    this->diskSize = 0;
+    this->diskNum = 0;
+    this->blockSize = 0;
+    this->clusterBlocks = 0;
+    this->totalClusters = 0;
+    this->clusterSize = 0;
+    this->rootAddress = 0;
+    this->storage = new int[diskSize];
+}
+
 /*
 Este constructor genera un Storage a partir de un archivo
 
 Storage::Storage(std::ifstream *diskImage)
 {
     loadDiskImage(diskImage);
+}
+*/
+
+/*
+int calucalteRootBlock(){
+    int fatFinalEntry = FATEntry * 
 }
 */
 
@@ -130,8 +149,9 @@ Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
     this->diskNum = diskNum;
     this->blockSize = blockSize;
     this->clusterBlocks = clusterBlocks;
-    this->totalClusters = diskSize / (clusterBlocks * blockSize);
-    this->rootAddress = resvdSize + (totalClusters * FATEntry); //cambiar para alienar con siguiente bloque
+    this->clusterSize = clusterBlocks * blockSize;
+    this->totalClusters = diskSize / clusterSize;
+    this->rootAddress = 24 + FATEntry * totalClusters;
     this->storage = new int[diskSize];
 
     fillReservedRegion();
@@ -164,17 +184,46 @@ void Storage::createDiskImage(std::ofstream *diskImage)
 }
 
 /*
+Busca el primer entry vacio en el FAT system y escribe la direccion
+del bloque recibido en parametros
+*/
+void Storage::writeCluster(char *block, int index)
+{
+    for (int i = 0; i < clusterSize; i += blockSize)
+    {
+        this->storage[(i + (clusterSize * index))] = block[i];
+    }
+}
+
+/*
+Retorna un char array (Cluster) de la memoria virtual del indice especificado
+*/
+char *Storage::readCluster(int clusterId)
+{
+    char buffer[clusterSize];
+    for (int i = 0; i < clusterSize; i += blockSize)
+    {
+        buffer[i] = this->storage[(i + (clusterSize * clusterId))];
+    }
+    return buffer;
+}
+
+/*
 Imprime la informacion del storage
 */
 void Storage::status()
 {
-    std::cout << "\n\n" << "                      DISK STATUS" << std::endl;
+    std::cout << "\n\n"
+              << "                      DISK STATUS" << std::endl;
     std::cout << "----------------------------------------------------" << std::endl;
     std::cout << "Disk Size in bytes:           " << this->diskSize << std::endl;
     std::cout << "Disk id:                      " << this->diskNum << std::endl;
     std::cout << "Block Size in bytes:          " << this->blockSize << std::endl;
     std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
     std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;
+    std::cout << "Cluster size:                 " << this->clusterSize << std::endl;
     std::cout << "Root Address:                 " << this->rootAddress << std::endl;
-    std::cout << "----------------------------------------------------" << "\n\n" << std::endl;
+    std::cout << "----------------------------------------------------"
+              << "\n\n"
+              << std::endl;
 }
