@@ -24,6 +24,7 @@ private:
     int diskNum;       //NumID del disco
     int blockSize;     //Cantidad de bytes en un block
     int clusterBlocks; //Numero de blocks por cluster
+    int clusterSize;   //tamano de los clusters
     int totalClusters; //Numero total de clusters
     int rootAddress;   //Direccion del FIL root
 
@@ -46,8 +47,8 @@ public:
     ~Storage();
     void createDiskImage(std::ofstream *diskImage);
     void loadDiskImage(std::ifstream *diskImage);
-    void writeCluster(char *block);
-    char *readCluster(int clusterId);
+    void writeCluster(char *block, int index);
+    char * readCluster(int clusterId);
     void status();
 };
 

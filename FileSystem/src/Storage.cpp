@@ -116,6 +116,7 @@ Storage::Storage()
     this->blockSize = 0;
     this->clusterBlocks = 0;
     this->totalClusters = 0;
+    this->clusterSize = 0;
     this->rootAddress = 0;
     this->storage = new int[diskSize];
 }
@@ -148,7 +149,8 @@ Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
     this->diskNum = diskNum;
     this->blockSize = blockSize;
     this->clusterBlocks = clusterBlocks;
-    this->totalClusters = diskSize / (clusterBlocks * blockSize);
+    this->clusterSize = clusterBlocks*blockSize;
+    this->totalClusters = diskSize / clusterSize;
     this->rootAddress = 24 + FATEntry * totalClusters;
     this->storage = new int[diskSize];
 
@@ -185,31 +187,25 @@ void Storage::createDiskImage(std::ofstream *diskImage)
 Busca el primer entry vacio en el FAT system y escribe la direccion
 del bloque recibido en parametros
 */
-void Storage::writeCluster(char *block)
+void Storage::writeCluster(char* block, int index)
 {
-    for (int i = resvdSize; i < this->totalClusters; i += FATEntry)
+    for(int i = 0; i < clusterSize; i+= blockSize)
     {
-        if (FAT[i].isEmpty())
-        {
-            FAT[i].setEntry(1, atoi(block));
-            break;
-        }
+        this->storage[(i+(clusterSize*index))] = block[i];
     }
 }
 
 /*
-Lee un cluster de storage
+Retorna un char array (Cluster) de la memoria virtual del indice especificado
 */
-char Storage::*readCluster()
+char * Storage::readCluster(int clusterId)
 {
-    for (int i = resvdSize; i < this->totalClusters; i += FATEntry)
+    char buffer[clusterSize];
+    for(int i = 0; i < clusterSize; i+= blockSize)
     {
-        if (FAT[i].isEmpty())
-        {
-            FAT[i].setEntry(1, atoi(block));
-            break;
-        }
+        buffer[i] = this->storage[(i+(clusterSize*clusterId))];
     }
+    return buffer;
 }
 
 /*
