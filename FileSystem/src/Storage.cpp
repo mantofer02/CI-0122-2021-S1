@@ -121,7 +121,7 @@ Constructor que genera un objeto Storage a partir de un archivo
 */
 Storage::Storage(std::ifstream *diskImage)
 {
-    loadDiskImage(diskImage);
+  loadDiskImage(diskImage);
 }
 
 /*
@@ -205,21 +205,30 @@ char *Storage::readCluster(int clusterId)
 }
 
 /*
+Sobrecarga de operadores para poder imprimir un objeto de tipo Storage
+*/
+std::ostream & operator <<(std::ostream &out, const Storage &storage)
+{
+  out << "\n\n"
+            << "                      DISK STATUS" << std::endl;
+  out << "----------------------------------------------------" << std::endl;
+  out << "Disk Size in bytes:           " << storage.diskSize << std::endl;
+  out << "Disk id:                      " << storage.diskNumber << std::endl;
+  out << "Block Size in bytes:          " << storage.blockSize << std::endl;
+  out << "Blocks in cluster:            " << storage.clusterBlocks << std::endl;
+  out << "Total number of clusters:     " << storage.totalClusters << std::endl;
+  out << "Cluster size:                 " << storage.clusterSize << std::endl;
+  out << "Root Address:                 " << storage.rootAddress << std::endl;
+  out << "----------------------------------------------------"
+            << "\n\n"
+            << std::endl;
+  return out;
+}
+
+/*
 Imprime la informacion del storage
 */
 void Storage::status()
 {
-  std::cout << "\n\n"
-            << "                      DISK STATUS" << std::endl;
-  std::cout << "----------------------------------------------------" << std::endl;
-  std::cout << "Disk Size in bytes:           " << this->diskSize << std::endl;
-  std::cout << "Disk id:                      " << this->diskNumber << std::endl;
-  std::cout << "Block Size in bytes:          " << this->blockSize << std::endl;
-  std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
-  std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;
-  std::cout << "Cluster size:                 " << this->clusterSize << std::endl;
-  std::cout << "Root Address:                 " << this->rootAddress << std::endl;
-  std::cout << "----------------------------------------------------"
-            << "\n\n"
-            << std::endl;
+  std::cout << this;
 }

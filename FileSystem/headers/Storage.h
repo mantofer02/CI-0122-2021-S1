@@ -48,5 +48,6 @@ public:
     void writeCluster(char *block, int index);
     char * readCluster(int clusterId);
     void status();
+    friend std::ostream & operator << (std::ostream &out, const Storage &storage);
 };
 #endif
