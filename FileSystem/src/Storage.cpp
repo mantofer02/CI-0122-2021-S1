@@ -7,17 +7,21 @@ void Entry::setEntry(char isEmpty, int address)
   this->empty = isEmpty;
 }
 
+/*
+Obtiene el valor de verdad si el entry esta vacio
+*/
 bool Entry::isEmpty()
 {
   return empty;
 }
 
+/*
+Obtiene la direccion de un entry
+*/
 int Entry::getAddress()
 {
   return address;
 }
-
-//Seccion de Storage
 
 /*
 A esta funcion se le pasa un numero y la posicion de memoria en que lo quiere almacenar
@@ -28,12 +32,15 @@ void Storage::writeIntToMemory(int number, int index)
   Utility myUtility;
   char temp[4];
   myUtility.SerializeInt32(temp, number);
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
   {
     this->storage[index + i] = temp[i];
   }
 }
 
+/*
+Lee un int de memoria dado un indice
+*/
 int Storage::readIntFromMemory(int index)
 {
   Utility myUtility;
@@ -54,18 +61,19 @@ en el constructor
 void Storage::fillReservedRegion()
 {
   writeIntToMemory(this->diskSize, 0);
-  writeIntToMemory(this->diskNum, 4);
+  writeIntToMemory(this->diskNumber, 4);
   writeIntToMemory(this->blockSize, 8);
   writeIntToMemory(this->clusterBlocks, 12);
   writeIntToMemory(this->totalClusters, 16);
   writeIntToMemory(this->rootAddress, 20);
 }
+
 /*
 Llena los clusters en todo el storage con valores enteros por defecto(inicializa)
 */
 void Storage::setDefaultClusters()
 {
-  for (int i = resvdSize; i <= this->totalClusters; i += FATEntry)
+  for (int i = reservedSize; i <= this->totalClusters; i += FATEntry)
   {
     this->storage[i] = false;
     writeIntToMemory(-1, i + 1);
@@ -93,11 +101,13 @@ void Storage::createFAT()
   initializeEntries(FAT);
 }
 
-//Constructor default
+/*
+Constructor por defecto
+*/
 Storage::Storage()
 {
   this->diskSize = 0;
-  this->diskNum = 0;
+  this->diskNumber = 0;
   this->blockSize = 0;
   this->clusterBlocks = 0;
   this->totalClusters = 0;
@@ -107,19 +117,19 @@ Storage::Storage()
 }
 
 /*
-Este constructor genera un Storage a partir de un archivo
-
+Constructor que genera un objeto Storage a partir de un archivo
+*/
 Storage::Storage(std::ifstream *diskImage)
 {
     loadDiskImage(diskImage);
 }
-*/
 
 /*
-int calucalteRootBlock(){
-    int fatFinalEntry = FATEntry * 
-}
+Obtiene el id del bloque raiz
 */
+int Storage::getRootBlock()
+{
+}
 
 /*
 Este constructor crea un Storage a partir de
@@ -128,17 +138,16 @@ Numero identificador de disco
 tamaño del block en bits
 cantidad de blocks en el cluster
 */
-Storage::Storage(int diskSize, int diskNum, int blockSize, int clusterBlocks)
+Storage::Storage(int diskSize, int diskNumber, int blockSize, int clusterBlocks)
 {
   this->diskSize = diskSize;
-  this->diskNum = diskNum;
+  this->diskNumber = diskNumber;
   this->blockSize = blockSize;
   this->clusterBlocks = clusterBlocks;
   this->clusterSize = clusterBlocks * blockSize;
   this->totalClusters = diskSize / clusterSize;
   this->rootAddress = 24 + FATEntry * totalClusters;
   this->storage = new int[diskSize];
-
   fillReservedRegion();
   createFAT();
 }
@@ -151,10 +160,12 @@ Storage::~Storage()
 }
 
 /*
+Crea una nueva memoria virtual con una imagen de disco
+recibida en parametros
+*/
 void Storage::loadDiskImage(std::ifstream *diskImage)
 {
 }
-*/
 
 /*
 Crea una imagen de disco a partir de la memoria
@@ -162,7 +173,7 @@ requiere como parametro el ofstream en que se creara la imagen
 */
 void Storage::createDiskImage(std::ofstream *diskImage)
 {
-  for (int i = 0; i < this->diskSize; i++)
+  for (int i = 0; i < this->diskSize; ++i)
   {
     *diskImage << this->storage[i];
   }
@@ -202,7 +213,7 @@ void Storage::status()
             << "                      DISK STATUS" << std::endl;
   std::cout << "----------------------------------------------------" << std::endl;
   std::cout << "Disk Size in bytes:           " << this->diskSize << std::endl;
-  std::cout << "Disk id:                      " << this->diskNum << std::endl;
+  std::cout << "Disk id:                      " << this->diskNumber << std::endl;
   std::cout << "Block Size in bytes:          " << this->blockSize << std::endl;
   std::cout << "Blocks in cluster:            " << this->clusterBlocks << std::endl;
   std::cout << "Total number of clusters:     " << this->totalClusters << std::endl;

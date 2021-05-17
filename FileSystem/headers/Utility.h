@@ -1,8 +1,9 @@
 #ifndef UTILITY_H
 #define UTILITY_H
-
 #include <bitset>
 #include <iostream>
+#include <fstream>
+#include <ostream>
 
 /* 
 Serialization
@@ -33,8 +34,7 @@ A esta funcion se le pasan un char[4] y crea un int32 a partir de esto
   }
 
   /*
-Deserialization
-*/
+    Deserialization
+  */
 };
-
 #endif

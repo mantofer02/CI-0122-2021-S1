@@ -1,9 +1,8 @@
 #ifndef STORAGE_H
 #define STORAGE_H
-#include <fstream>
 #include <Utility.h>
 //Reserved space Offset en bytes
-#define resvdSize 24
+#define reservedSize 24
 //Bytes per FAT Entry
 #define FATEntry 5
 struct Entry
@@ -19,7 +18,7 @@ class Storage
 {
 private:
     int diskSize;      //Tamano del disco en kbs
-    int diskNum;       //NumID del disco
+    int diskNumber;       //NumID del disco
     int blockSize;     //Cantidad de bytes en un block
     int clusterBlocks; //Numero de blocks por cluster
     int clusterSize;   //tamano de los clusters
@@ -41,8 +40,9 @@ private:
 public:
     Storage();
     Storage(std::ifstream *diskImage);
-    Storage(int diskNum, int diskSize, int blockSize, int clusterBlocks);
+    Storage(int diskNumber, int diskSize, int blockSize, int clusterBlocks);
     ~Storage();
+    int getRootBlock();
     void createDiskImage(std::ofstream *diskImage);
     void loadDiskImage(std::ifstream *diskImage);
     void writeCluster(char *block, int index);
