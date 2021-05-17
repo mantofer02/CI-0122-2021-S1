@@ -1,10 +1,8 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 #include <Utility.h>
-//Reserved space Offset en bytes
-#define reservedSize 24
-//Bytes per FAT Entry
-#define FATEntry 5
+#define reservedSize 24 //Reserved space Offset en bytes
+#define FATEntry 5      //Bytes per FAT Entry
 struct Entry
 {
     char empty;
@@ -17,18 +15,16 @@ struct Entry
 class Storage
 {
 private:
-    int diskSize;      //Tamano del disco en kbs
-    int diskNumber;       //NumID del disco
-    int blockSize;     //Cantidad de bytes en un block
-    int clusterBlocks; //Numero de blocks por cluster
-    int clusterSize;   //tamano de los clusters
-    int totalClusters; //Numero total de clusters
-    int rootAddress;   //Direccion del FIL root
-
-    //Secciones que no se incluyen en resv
-    Entry *FAT;
-    int *storage; //The Virtrual Memory Storage
-
+    int diskSize;       //Tamano del disco en kbs
+    int diskNumber;     //NumID del disco
+    int blockSize;      //Cantidad de bytes en un block
+    int clusterBlocks;  //Numero de blocks por cluster
+    int clusterSize;    //tamano de los clusters
+    int totalClusters;  //Numero total de clusters
+    int rootAddress;    //Direccion del FIL root
+    int *storage;       //The Virtrual Memory Storage
+    Entry *FAT;         //Secciones que no se incluyen en resv
+    
     void writeIntToMemory(int number, int index);
     int readIntFromMemory(int index);
     void fillReservedRegion();

@@ -61,7 +61,7 @@ en el constructor
 void Storage::fillReservedRegion()
 {
   writeIntToMemory(this->diskSize, 0);
-  writeIntToMemory(this->diskNumber, 4);
+  writeIntToMemory(this->diskNumber, 4); 
   writeIntToMemory(this->blockSize, 8);
   writeIntToMemory(this->clusterBlocks, 12);
   writeIntToMemory(this->totalClusters, 16);
@@ -113,7 +113,7 @@ Storage::Storage()
   this->totalClusters = 0;
   this->clusterSize = 0;
   this->rootAddress = 0;
-  this->storage = new int[diskSize];
+  this->storage = new int[this->diskSize];
 }
 
 /*
@@ -147,7 +147,7 @@ Storage::Storage(int diskSize, int diskNumber, int blockSize, int clusterBlocks)
   this->clusterSize = clusterBlocks * blockSize;
   this->totalClusters = diskSize / clusterSize;
   this->rootAddress = 24 + FATEntry * totalClusters;
-  this->storage = new int[diskSize];
+  this->storage = new int[this->diskSize];
   fillReservedRegion();
   createFAT();
 }
@@ -185,9 +185,9 @@ del bloque recibido en parametros
 */
 void Storage::writeCluster(char *block, int index)
 {
-  for (int i = 0; i < clusterSize; i += blockSize)
+  for (int i = 0; i < this->clusterSize; i += this->blockSize)
   {
-    this->storage[(i + (clusterSize * index))] = block[i];
+    this->storage[(i + (this->clusterSize * index))] = block[i];
   }
 }
 
@@ -196,10 +196,10 @@ Retorna un char array (Cluster) de la memoria virtual del indice especificado
 */
 char *Storage::readCluster(int clusterId)
 {
-  char buffer[clusterSize];
-  for (int i = 0; i < clusterSize; i += blockSize)
+  char buffer[this->clusterSize];
+  for (int i = 0; i < this->clusterSize; i += this->blockSize)
   {
-    buffer[i] = this->storage[(i + (clusterSize * clusterId))];
+    buffer[i] = this->storage[(i + (this->clusterSize * clusterId))];
   }
   return buffer;
 }
