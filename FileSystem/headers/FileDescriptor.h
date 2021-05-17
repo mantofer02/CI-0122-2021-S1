@@ -2,6 +2,7 @@
 #define FILE_DESCRIPTOR_H
 
 #include <string>
+#include <vector>
 #define NAME_SIZE 256
 #define ID_SIZE 4
 #define TYPE_SIZE 128 
@@ -29,7 +30,9 @@ public:
   FileDescriptor();
   FileDescriptor(char * fileDescriptor);
   FileDescriptor(std::string name, int id, bool permissions[10], int size, std::string username);
-  char *serialize();
+  std::vector<char> serialize();
+  void pushString(std::string element, int counter, std::vector<char> *buffer);
+  void pushInteger(int element, int counter, std::vector<char> *buffer);
   void SerializeInt32(char (&buf)[4], int val);
   int32_t ParseInt32(const char (&buf)[4]);
 };
