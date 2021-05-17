@@ -9,5 +9,7 @@
 
 int main()
 {
-    FileSystem fileSystem;
+    //FileSystem fileSystem;
+    Storage storage(25 * 1024 * 1024, 0, 64, 2);
+    storage.status();
 }

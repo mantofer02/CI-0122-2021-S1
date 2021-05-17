@@ -2,6 +2,7 @@
 #define STORAGE_H
 
 #include <fstream>
+#include <Utility.h>
 
 //Reserved space Offset en bytes
 #define resvdSize 24
@@ -32,8 +33,6 @@ private:
     Entry *FAT;
     int *storage; //The Virtrual Memory Storage
 
-    void SerializeInt32(char (&buf)[4], int val);
-    int32_t ParseInt32(const char (&buf)[4]);
     void writeIntToMemory(int num, int pos);
     int readIntFromMemory(int pos);
     void fillReservedRegion();

@@ -21,35 +21,6 @@ int Entry::getAddress()
 //Seccion de Storage
 
 /*
-A esta funcion se le pasan un char[4] y un int
-y convierte el int en los 4 chars
-Esto se puede por la forma en que se usan los bits
-a nivel de procesador
-*/
-void Storage::SerializeInt32(char (&buf)[4], int val)
-{
-    for (int i = 3; i >= 0; --i)
-    {
-        buf[i] = val & 255;
-        val = val >> 8;
-    }
-}
-
-/*
-A esta funcion se le pasan un char[4] y crea un int32 a partir de esto
-*/
-int32_t Storage::ParseInt32(const char (&buf)[4])
-{
-    int val = 0;
-    for (int i = 0; i < 4; i++)
-    {
-        val = val << 8;
-        val = val | buf[i];
-    }
-    return val;
-}
-
-/*
 A esta funcion se le pasa un numero y la posicion de memoria en que lo quiere almacenar
 es unicamente para guardar ints
 */
