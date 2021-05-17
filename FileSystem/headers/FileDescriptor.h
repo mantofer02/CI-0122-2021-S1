@@ -39,8 +39,11 @@ public:
   FileDescriptor(std::string name, int id, bool permissions[10], int size, std::string username);
   std::vector<char> serialize();
   void pushString(std::string element, int counter, std::vector<char> *buffer);
-  void pushInteger(int element, int counter, std::vector<char> *buffer);
+  void pushInteger(int element, std::vector<char> *buffer);
+  void pushTime(time_t element, std::vector<char> *buffer);
+  void pushPermission(bool (&element)[10], std::vector<char> *buffer);
   void SerializeInt32(char (&buf)[4], int val);
+  void SerializeInt64(char (&buf)[8], long val);
   int32_t ParseInt32(const char (&buf)[4]);
 };
 #endif
