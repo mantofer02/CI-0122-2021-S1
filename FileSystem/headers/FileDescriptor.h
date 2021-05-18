@@ -18,6 +18,7 @@
 #define USERNAME_SIZE 256
 #define TIME_SIZE 8
 #define ADDRESS_SIZE 4
+#define DESCRIPTOR_SIZE 8
 
 //d -rwx user - rwx group - rwx other
 // const int permissions_size = 10;

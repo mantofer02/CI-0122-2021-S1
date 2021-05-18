@@ -1,6 +1,8 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 #include <Utility.h>
+#include <vector>
+#include "FileDescriptor.h"
 #define reservedSize 24 //Reserved space Offset en bytes
 #define FATEntry 5      //Bytes per FAT Entry
 struct Entry
@@ -21,6 +23,7 @@ private:
     int clusterBlocks;  //Numero de blocks por cluster
     int clusterSize;    //tamano de los clusters
     int totalClusters;  //Numero total de clusters
+    int endOfTableAddress;
     int rootAddress;    //Direccion del FIL root
     int *storage;       //The Virtrual Memory Storage
     Entry *FAT;         //Secciones que no se incluyen en resv
@@ -31,7 +34,8 @@ private:
     void initializeEntries(Entry * FAT);
     void setDefaultClusters();
     void createFAT();
-    void createRoot();
+    void setRoot();
+    std::vector<int>* allocateSpace(int space);
 
 public:
     Storage();
@@ -41,6 +45,8 @@ public:
     int getRootBlock();
     void createDiskImage(std::ofstream *diskImage);
     void loadDiskImage(std::ifstream *diskImage);
+    int writeDescriptor(FileDescriptor fileDesc, int pos);
+    void readDescriptor(int index);
     void writeCluster(char *block, int index);
     char * readCluster(int clusterId);
     void status();
