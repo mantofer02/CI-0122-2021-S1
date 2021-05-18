@@ -10,8 +10,6 @@
 #include <vector>
 #include "FileDescriptor.h"
 
-#define SUCCESS 1
-#define EXIT_ERROR 0
 
 class DirectoryTree
 {
