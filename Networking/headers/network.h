@@ -13,24 +13,33 @@
 class Server
 {
 private:
-    std::string messageBuffer;
+    char messageBuffer[1024];
+    int serverSocketDescriptor;
+    int connectionSocketDescriptor;
+    int addressLength;
+    struct sockaddr_in address;
 
 public:
     Server();
     bool run();
+    bool sendMessage(void *message);
+    void bindSocket();
+    void listenForMessages(int timesToListen);
+    void acceptConnecton();
+    void readFromConnection();
 };
 
 class Client
 {
 private:
-    int socket_descriptor;
     char messageBuffer[1024];
-    struct sockaddr_in serv_addr;
+    int clientSocketDescriptor;
+    struct sockaddr_in serverAddress;
 
 public:
     Client();
     bool connectSocket();
-    bool sendMessage(void * message);
+    bool sendMessage(void *message);
     bool readMessage();
 };
 #endif
