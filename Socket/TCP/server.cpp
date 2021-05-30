@@ -24,8 +24,8 @@ int main(void) {
   listen(server_socket, 1);
 
   // 2 way connection 
-  int client_socket = accept(server_socket, NULL /*Structure to know 
-  from where the client is connecting*/, NULL);
+  int client_socket = accept(server_socket, NULL /*Structure to know from 
+  where the client is connecting*/, NULL);
 
   send(client_socket, server_buffer, sizeof(server_buffer), 0);
 

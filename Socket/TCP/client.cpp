@@ -1,17 +1,15 @@
 #include <iostream>
 #include <unistd.h>
-
 #include <sys/types.h>
 #include <sys/socket.h>
-
 #include <netinet/in.h>
 
 int main(void) {
+  //data
+  char buffer[256];
   // holds the socket descriptor
   // SOCK_STREAM = Conection Socket
   // 0 = Default Protocol = TCP
-  //data
-  char buffer[256];
   int network_socket = socket(AF_INET, SOCK_STREAM, 0);
 
   // structure describing an Internet socket address
@@ -35,7 +33,6 @@ int main(void) {
   }
   recv(network_socket, &buffer, sizeof(buffer), 0 /*Flags parameter*/);
 
-  // print out data
   for (int i = 0; i < 256; i++) {
     std::cout << buffer[i];
   }
