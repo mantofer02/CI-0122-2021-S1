@@ -6,7 +6,7 @@
 #include <string.h>
 #include <regex>
 
-#define COMMAND_REGEX "(^(<)\\w+(>))" 
+#define COMMAND_REGEX "(^(<)\\w+(>))"
 
 #define PORT 9002
 #define AMOUNT_CONNECTIONS 5
@@ -15,25 +15,28 @@
 bool receiveMessage(int network_socket, char* buffer);
 bool sendMessage(int network_socket, char* buffer);
 
-int main(void) { 
+int main(void) {
   char buffer[256];
   int network_socket = socket(AF_INET, SOCK_STREAM, 0);
 
   struct sockaddr_in socket_address;
   socket_address.sin_family = AF_INET;
   socket_address.sin_port = htons(9002);
-  socket_address.sin_addr.s_addr = INADDR_ANY; 
-  
+  socket_address.sin_addr.s_addr = INADDR_ANY;
+
   bool go = true;
   int endpoint;
-  int connection_status = connect(network_socket, (struct sockaddr *) &socket_address, 
-  sizeof(socket_address));
+  int connection_status = connect(network_socket,
+  (struct sockaddr *) &socket_address, sizeof(socket_address));
+
   if (connection_status == 0) {
     while (go) {
       go = sendMessage(network_socket, buffer);
     }
   } else {
-    bind(network_socket, (struct sockaddr *) &socket_address, sizeof(socket_address));
+    bind(network_socket, (struct sockaddr *) &socket_address,
+    sizeof(socket_address));
+
     listen(network_socket, AMOUNT_CONNECTIONS);
     while(go) {
         go = receiveMessage(network_socket, buffer);
