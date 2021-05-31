@@ -1,9 +1,9 @@
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <string.h>
 #include <sys/types.h>
 
 int main(void) {
@@ -31,8 +31,7 @@ int main(void) {
   server_address.sin_port = htons(8001);
   server_address.sin_addr.s_addr = INADDR_ANY;
 
-  bind(server_socket, (struct sockaddr *) &server_address,
-  sizeof(server_address));
+  bind(server_socket, (struct sockaddr *) &server_address, sizeof(server_address));
 
   listen(server_socket, 5);
 
