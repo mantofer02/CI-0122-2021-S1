@@ -1,6 +1,5 @@
-NODE_A = node_a 
-NODE_B = node_b
-EXECUTABLES=$(NODE_A) $(NODE_B)
+APPNAME=endpoint
+EXECUTABLES=$(APPNAME)
 
 CC = g++
 CC2 = clang
@@ -9,11 +8,8 @@ LIBS = -pthread
 
 all: $(EXECUTABLES)
 
-$(NODE_A): node.cpp 
-	$(CC) $(CFLAGS) node.cpp -o $(NODE_A)
-
-$(NODE_B): node.cpp 
-	$(CC) $(CFLAGS) node.cpp -o $(NODE_B)
+$(APPNAME): main.cpp $(APPNAME).cpp 
+	$(CC) $(CFLAGS) main.cpp $(APPNAME).cpp -o $(APPNAME)
 
 
 .PHONY: build
@@ -24,7 +20,7 @@ rebuild: clean $(EXECUTABLES)
 
 .PHONY: lint
 lint:
-	cpplint --filter=-readability/casting node.cpp 
+	cpplint --filter=-readability/casting $(SERVER).cpp $(CLIENT).cpp 
 
 .PHONY: gitignore
 gitignore:
