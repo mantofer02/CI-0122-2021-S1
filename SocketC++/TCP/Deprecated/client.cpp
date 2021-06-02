@@ -14,7 +14,6 @@ Client::Client() {
   } else {
     std::cout << "Connection error" << std::endl;
   }
-
   recv(this->network_socket, &this->buffer, sizeof(this->buffer), 0);
 
   if (!this->connection_status) {
