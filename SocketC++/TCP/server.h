@@ -1,7 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "Socket.h"
+#include "Network.h"
 
 class Server : public Network {
   private:
@@ -9,8 +9,9 @@ class Server : public Network {
    
   public: 
     Server();
-    Server(struct sockaddr_in socket_address);
-    bool sendMsg() override;
-    bool recMsg() override;
+    Server(struct sockaddr_in socket_address) {}
+    bool sendMsg() override { return true; }
+    bool recMsg() override { return true; }
 };
+
 #endif
