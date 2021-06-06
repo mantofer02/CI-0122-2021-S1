@@ -9,11 +9,11 @@ LIBS = -pthread
 
 all: $(EXECUTABLES)
 
-$(SERVER): $(SERVER).cpp 
-	$(CC) $(CFLAGS) $(SERVER).cpp -o $(SERVER)
+$(SERVER): main.cpp $(SERVER).cpp $(CLIENT).cpp
+	$(CC) $(CFLAGS) main.cpp $(SERVER).cpp $(CLIENT).cpp -o $(SERVER)
 
-$(CLIENT): $(CLIENT).cpp 
-	$(CC) $(CFLAGS) $(CLIENT).cpp -o $(CLIENT)
+$(CLIENT): main.cpp $(CLIENT).cpp $(SERVER).cpp
+	$(CC) $(CFLAGS) main.cpp $(CLIENT).cpp $(SERVER).cpp -o $(CLIENT)
 
 
 .PHONY: build
