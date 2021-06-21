@@ -26,7 +26,8 @@ int main(void) {
   // bind our socket to our IP and port
   bind(server_socket, (struct sockaddr *) &server_address, sizeof(server_address));
   listen(server_socket, 5);
-    
+  
+  
   // 2 way connection
   int client_socket;
 
